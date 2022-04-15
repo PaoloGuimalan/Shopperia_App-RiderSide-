@@ -59,8 +59,8 @@ const stylesForm = StyleSheet.create({
       alignItems: "center",
       justifyContent: "center",
       alignSelf: "center",
-      height: "105vh",
-      width: "110vw",
-      marginTop: "-15px",
+      height: "100vh",
+      width: "100vw",
+      marginTop: "0px",
     }
   });
