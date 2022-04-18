@@ -4,7 +4,7 @@ import LogoIcon from '../imgs/shopperia_logo.png';
 import BackLogo from '../imgs/SHOPPERIA.png';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Axios from 'axios';
-import { URL_ONE } from '../../localvars/localvars';
+import { URL_ONE, URL_TWO } from '../../localvars/localvars';
 import { useDispatch } from 'react-redux';
 import { SET_RIDER_ID } from '../../redux/types/types';
 
@@ -19,7 +19,7 @@ export default function Login({navigation}) {
     // navigation.navigate('Home');
     try{
       // await AsyncStorage.setItem('token', "sakjhds");
-      Axios.post(`http://${URL_ONE}/loginRider`, {
+      Axios.post(`http://${URL_TWO}/loginRider`, {
           email: email,
           password: password
       }).then( async (response) => {
@@ -41,7 +41,7 @@ export default function Login({navigation}) {
 
   const loginVerFunc = async () => {
     await AsyncStorage.getItem('token').then((resp) => {
-      Axios.get(`http://${URL_ONE}/loginriderverifier`, {
+      Axios.get(`http://${URL_TWO}/loginriderverifier`, {
         headers:{
           "x-access-token": resp
         }
@@ -67,7 +67,7 @@ export default function Login({navigation}) {
         <Image source={LogoIcon} style={stylesForm.imageSizing} />
         <Text style={stylesForm.textSizing}>Login</Text>
         <TextInput style={stylesForm.inputBox} placeholder='Email' defaultValue={email} onChangeText={(e) => {setemail(e)}}></TextInput>
-        <TextInput style={stylesForm.inputBox} placeholder='Password' secureTextEntry='true' defaultValue={password} onChangeText={(e) => {setpassword(e)}}></TextInput>
+        <TextInput style={stylesForm.inputBox} placeholder='Password' secureTextEntry={true} defaultValue={password} onChangeText={(e) => {setpassword(e)}}></TextInput>
         <View style={stylesForm.buttonSizing}>
           <Button title='Log In' color='grey' onPress={() => loginToggler()}/>
         </View>
@@ -78,21 +78,21 @@ export default function Login({navigation}) {
 
 const stylesForm = StyleSheet.create({
     inputBox: {
-      width: "100%",
-      height: 30,
+      width: 300,
+      height: 50,
       maxWidth: 300,
-      borderWidth: 1,
+      borderWidth: 2,
       marginBottom: 5,
       borderRadius: 5,
       textAlign: "center",
       backgroundColor: "white",
-      borderColor: "white",
+      borderColor: "grey",
     },
     viewSizing:{
        flex: 1,
-       width: "100%",
+       width: 100,
        alignItems: "center",
-       marginTop: "20vh",
+       marginTop: "20%",
     },
     textSizing:{
        fontSize: 20,
@@ -116,8 +116,8 @@ const stylesForm = StyleSheet.create({
       alignItems: "center",
       justifyContent: "center",
       alignSelf: "center",
-      height: "100vh",
-      width: "100vw",
-      marginTop: "0px",
+      height: "100%",
+      width: "100%",
+      marginTop: 0,
     }
   });

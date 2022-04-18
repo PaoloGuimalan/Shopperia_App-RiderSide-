@@ -49,11 +49,11 @@ export default function Home({navigation}) {
         </Tab.Navigator>
       </View>
       <View style={styleHome.bottomNavBar}>
-        <Text style={styleHome.textNavBar}><Ionicons name='person' style={{fontSize: "30px"}} onPress={() => {accountPress()}} /></Text>
-        <Text style={styleHome.textNavBar}><Ionicons name='cart' style={{fontSize: "30px"}} onPress={() => {ordersPress()}} /></Text>
-        <Text style={styleHome.textNavBarMain}><Ionicons name='home' style={{fontSize: "40px"}} onPress={() => {homePress()}} /></Text>
-        <Text style={styleHome.textNavBar}><Ionicons name='chatbubble-ellipses' style={{fontSize: "30px"}} onPress={() => {messagesPress()}} /></Text>
-        <Text style={styleHome.textNavBar}><Ionicons name='settings' style={{fontSize: "30px"}} onPress={() => {settingsPress()}} /></Text>
+        <Text style={styleHome.textNavBar} onPress={() => {accountPress()}} ><Ionicons name='person' style={{fontSize: 25}}/></Text>
+        <Text style={styleHome.textNavBar} onPress={() => {ordersPress()}} ><Ionicons name='cart' style={{fontSize: 25 }}/></Text>
+        <Text style={styleHome.textNavBarMain} onPress={() => {homePress()}} ><Ionicons name='home' style={{fontSize: 35 }}/></Text>
+        <Text style={styleHome.textNavBar} onPress={() => {messagesPress()}} ><Ionicons name='chatbubble-ellipses' style={{fontSize: 25 }}/></Text>
+        <Text style={styleHome.textNavBar} onPress={() => {settingsPress()}} ><Ionicons name='settings' style={{fontSize: 25 }}/></Text>
       </View>
     </View>
   )
@@ -75,9 +75,9 @@ const styleHome = StyleSheet.create({
       flex: 1,
       flexDirection: "row",
       width: "100%",
-      height: "55px",
+      height: 55,
       position: "absolute",
-      bottom: "0",
+      bottom: 0,
       backgroundColor: "black",
       color: "white",
       textAlign: "center",
@@ -86,28 +86,26 @@ const styleHome = StyleSheet.create({
     textNavBar:{
       color: "white",
       backgroundColor: "black",
-      justifyContent: "center",
-      alignContent: "center",
       height: "100%",
       width: "20%",
-      alignItems: "center",
-      alignSelf: "center",
-      paddingTop: "10px",
+      textAlign: "center",
+      paddingTop: 15,
     },
     textNavBarMain:{
       color: "white",
       backgroundColor: "black",
       borderColor: "white",
-      borderWidth: "3px",
+      borderWidth: 3,
       justifyContent: "center",
       alignContent: "center",
-      height: "70px",
-      width: "70px",
+      height: 70,
+      width: 70,
       alignItems: "center",
       alignSelf: "center",
-      paddingTop: "10px",
-      borderRadius: "100%",
+      paddingTop: 13,
+      borderRadius: 100,
       position: "relative",
-      marginBottom: "30px",
+      marginBottom: 30,
+      textAlign: "center",
     },
 })
