@@ -1,17 +1,19 @@
-import { View, Text, TextInput, StyleSheet, Button, Image, ImageBackground} from 'react-native'
+import { View, Text, TextInput, StyleSheet, Button, Image, ImageBackground, ScrollView } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import LogoIcon from '../imgs/shopperia_logo.png';
 import BackLogo from '../imgs/SHOPPERIA.png';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Axios from 'axios';
-import { URL_ONE, URL_TWO } from '../../localvars/localvars';
-import { useDispatch } from 'react-redux';
-import { SET_RIDER_ID } from '../../redux/types/types';
+import { URL_ONE, URL_THREE, URL_TWO } from '../../localvars/localvars';
+import { useDispatch, useSelector } from 'react-redux';
+import { SET_RIDER_ID, SET_SERVER } from '../../redux/types/types';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function Login({navigation}) {
 
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
+  const serverrr = useSelector(state => state.server);
 
   const dispatch = useDispatch();
 
@@ -30,9 +32,10 @@ export default function Login({navigation}) {
           await AsyncStorage.setItem('token', response.data.token);
           await dispatch({type: SET_RIDER_ID, riderID: response.data.riderID})
           navigation.navigate("Home");
+          alert("Logged In!");
         }
       }).catch((err) => {
-        //handle err
+        alert(err.message);
       })
     }catch(error){
       //error
@@ -40,39 +43,55 @@ export default function Login({navigation}) {
   }
 
   const loginVerFunc = async () => {
-    await AsyncStorage.getItem('token').then((resp) => {
-      Axios.get(`http://${URL_TWO}/loginriderverifier`, {
-        headers:{
-          "x-access-token": resp
-        }
-      }).then((response) => {
-        // console.log(response.data);
-        if(response.data.status){
-          dispatch({type: SET_RIDER_ID, riderID: response.data.riderID});
-          navigation.navigate("Home");
-        }
-      }).catch((err) => {
-        //handle error
+    if(serverrr != ""){
+      await AsyncStorage.getItem('token').then((resp) => {
+        Axios.get(`http://${URL_TWO}/loginriderverifier`, {
+          headers:{
+            "x-access-token": resp
+          }
+        }).then((response) => {
+          // console.log(response.data);
+          if(response.data.status){
+            dispatch({type: SET_RIDER_ID, riderID: response.data.riderID});
+            navigation.navigate("Home");
+          }
+        }).catch((err) => {
+          //handle error
+        })
       })
-    })
+    }
   }
 
   useEffect(() => {
     loginVerFunc();
-  }, []);
+  }, [serverrr]);
+
+  const appSettingsScreen = () => {
+    navigation.navigate("AppSettings");
+  }
+
+  useEffect(() => {
+    returnRespTrigger();
+  }, [serverrr]);
+
+  const returnRespTrigger = async () => {
+    const savedServer = await URL_THREE();
+    dispatch({type: SET_SERVER, server: savedServer});
+  }
 
   return (
-    <ImageBackground source={BackLogo} blurRadius={10} resizeMode='cover' style={stylesForm.backgroundSizing}>
-      <View style={stylesForm.viewSizing}>
-        <Image source={LogoIcon} style={stylesForm.imageSizing} />
+    <View style={stylesForm.backgroundSizing}>
+      <Image source={BackLogo} style={stylesForm.imageSizing} />
+      <Text style={stylesForm.floatsettings} onPress={() => {appSettingsScreen()}} ><Ionicons name='settings' style={{fontSize: 20 }}/></Text>
+      <ScrollView contentContainerStyle={stylesForm.viewSizing}>
         <Text style={stylesForm.textSizing}>Login</Text>
         <TextInput style={stylesForm.inputBox} placeholder='Email' defaultValue={email} onChangeText={(e) => {setemail(e)}}></TextInput>
         <TextInput style={stylesForm.inputBox} placeholder='Password' secureTextEntry={true} defaultValue={password} onChangeText={(e) => {setpassword(e)}}></TextInput>
         <View style={stylesForm.buttonSizing}>
-          <Button title='Log In' color='grey' onPress={() => loginToggler()}/>
+          <Button title='Log In' color='black' onPress={() => loginToggler()}/>
         </View>
-      </View>
-    </ImageBackground>
+      </ScrollView>
+    </View>
   )
 }
 
@@ -90,9 +109,9 @@ const stylesForm = StyleSheet.create({
     },
     viewSizing:{
        flex: 1,
-       width: 100,
+       width: "100%",
        alignItems: "center",
-       marginTop: "20%",
+       marginTop: 0,
     },
     textSizing:{
        fontSize: 20,
@@ -107,9 +126,10 @@ const stylesForm = StyleSheet.create({
         borderRadius: 5,
     },
     imageSizing:{
-      width: 150,
-      height: 150,
-      marginBottom: 20,
+      width: "100%",
+      height: "60%",
+      marginBottom: 0,
+      borderBottomLeftRadius: 350,
     },
     backgroundSizing:{
       flex: 1,
@@ -119,5 +139,14 @@ const stylesForm = StyleSheet.create({
       height: "100%",
       width: "100%",
       marginTop: 0,
-    }
+      backgroundColor: "#606060",
+    },
+    floatsettings:{
+        width: 40,
+        height: 40,
+        color: "white",
+        position: "absolute",
+        top: 10,
+        left: 15,
+    },
   });
