@@ -10,7 +10,7 @@ import Inbox from '../MessagesComponents/Inbox';
 
 const Screener = createNativeStackNavigator();
 
-export default function Messages() {
+export default function Messages({ navigation }) {
 
   const riderID = useSelector(state => state.riderID);
   const messages = useSelector(state => state.messages);
@@ -46,7 +46,7 @@ export default function Messages() {
         ):(
           messages.map((msgs) => {
             return(
-              <View key={msgs.conversation_id} style={MessagesTabStyle.messagesPreview} onStartShouldSetResponder={() => {setmessagesScreen(true); setchatperson(msgs.from == riderID? msgs.to : msgs.from)}}>
+              <View key={msgs.conversation_id} style={MessagesTabStyle.messagesPreview} onStartShouldSetResponder={() => {navigation.navigate("InboxMessages", {user: msgs.from == riderID? msgs.to : msgs.from})}}>
                 <Image source={{uri: `http://${URL_TWO}/profileImgs/Default_Male.jpg`}} style={MessagesTabStyle.imgSizing} />
                 <View style={MessagesTabStyle.viewMessagesPrev}>
                   <Text style={MessagesTabStyle.msgsLabelUserName}>{msgs.from == riderID? msgs.to : msgs.from}</Text>
@@ -63,7 +63,7 @@ export default function Messages() {
 
   return (
     <View  style={MessagesTabStyle.mainView}>
-      {messagesScreen == false? <MessagesList /> : <Inbox person={chatperson} />}
+      <MessagesList />
     </View>
   )
 }

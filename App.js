@@ -8,6 +8,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Provider } from 'react-redux';
 import store from './redux/store/store';
 import AppSettings from './components/jsx/AppSettings';
+import Inbox from './MessagesComponents/Inbox';
 
 const Stack = createNativeStackNavigator();
 
@@ -19,6 +20,7 @@ export default function App() {
           <Stack.Screen name='Login' component={Login} options={{ headerShown: false }} />
           <Stack.Screen name='Home' component={Home} options={{ headerShown: false }} />
           <Stack.Screen name='AppSettings' component={AppSettings} options={{ headerShown: false }} />
+          <Stack.Screen name='InboxMessages' component={Inbox} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

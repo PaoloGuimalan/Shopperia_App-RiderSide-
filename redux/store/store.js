@@ -1,5 +1,5 @@
 import { createStore, combineReducers } from "redux";
-import { setmessages, setriderbranch, setriderid, setserver, settodeliver, settoretrieve } from "../actions/actions";
+import { setinbox, setmessages, setriderbranch, setriderid, setserver, settodeliver, settoretrieve } from "../actions/actions";
 
 const combine = combineReducers({
     riderID: setriderid,
@@ -7,7 +7,8 @@ const combine = combineReducers({
     toretrieve: settoretrieve,
     todeliver: settodeliver,
     riderbranch: setriderbranch,
-    messages: setmessages
+    messages: setmessages,
+    inbox: setinbox,
 });
 
 const store = createStore(combine);

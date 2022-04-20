@@ -7,3 +7,4 @@ export const SET_TO_RETRIEVE = 'SET_TO_RETRIEVE';
 export const SET_TO_DELIVER = 'SET_TO_DELIVER';
 
 export const SET_MESSAGES = 'SET_MESSAGES';
+export const SET_INBOX = 'SET_INBOX';
