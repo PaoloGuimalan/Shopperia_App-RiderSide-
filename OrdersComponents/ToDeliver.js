@@ -8,13 +8,16 @@ import Axios from 'axios';
 
 export default function ToDeliver() {
 
+  const [loader, setloader] = useState(true);
+
   const riderID = useSelector(state => state.riderID);
+  const riderbranch = useSelector(state => state.riderbranch);
   const todeliver = useSelector(state => state.todeliver);
   const dispatch = useDispatch();
 
   useEffect(() => {
     getToDeliverOrders()
-  }, [riderID])
+  }, [riderID, loader])
 
   const getToDeliverOrders = async () => {
     await AsyncStorage.getItem('token').then((resp) => {
@@ -30,6 +33,27 @@ export default function ToDeliver() {
     })
   }
 
+  const deliverConfirm = async (follow_order_id) => {
+    await AsyncStorage.getItem('token').then((resp) => {
+      Axios.post(`http://${URL_TWO}/deliverConfirm`, {
+          rider_id: riderID,
+          branch: riderbranch,
+          order_id: follow_order_id
+      }, {
+          headers:{
+              "x-access-token": resp
+          }
+      }).then((response) => {
+          setloader(!loader);
+          if(response.data.status){
+              alert(response.data.message);
+          }
+      }).catch((err) => {
+          //err execute
+      })
+    })
+}
+
   return (
     <ScrollView style={ToDeliverStyle.mainView}>
       <Text style={ToDeliverStyle.labelText}>Orders to Deliver</Text>
@@ -44,7 +68,7 @@ export default function ToDeliver() {
                         <Text style={ToDeliverStyle.detailsText}>{items.fulladdress}</Text>
                         <View style={ToDeliverStyle.buttonsView}>
                             <Text style={ToDeliverStyle.btnsOrderOne}>View</Text>
-                            <Text style={ToDeliverStyle.btnsOrderTwo}>Delivered</Text>
+                            <Text style={ToDeliverStyle.btnsOrderTwo} onPress={() => {deliverConfirm(items.order_id)}}>Delivered</Text>
                         </View>
                       </View>
                   </View>

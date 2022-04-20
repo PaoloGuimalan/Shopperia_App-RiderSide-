@@ -5,10 +5,11 @@ import { useSelector } from 'react-redux';
 export default function HomeTab() {
 
   const riderID = useSelector(state => state.riderID);
+  const riderbranch = useSelector(state => state.riderbranch);
 
   return (
     <View style={HomeTabStyle.mainView}>
-      <Text>HomeTab New {riderID}</Text>
+      <Text>HomeTab New {riderID} | {riderbranch}</Text>
     </View>
   )
 }

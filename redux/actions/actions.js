@@ -1,9 +1,18 @@
-import { SET_RIDER_ID, SET_SERVER, SET_TO_DELIVER, SET_TO_RETRIEVE } from "../types/types"; 
+import { SET_MESSAGES, SET_RIDER_BRANCH, SET_RIDER_ID, SET_SERVER, SET_TO_DELIVER, SET_TO_RETRIEVE } from "../types/types"; 
 
 export const setriderid = (state = "", action) => {
     switch(action.type){
         case SET_RIDER_ID:
             return action.riderID;
+        default:
+            return state;
+    }
+}
+
+export const setriderbranch = (state = "", action) => {
+    switch(action.type){
+        case SET_RIDER_BRANCH:
+            return action.riderbranch;
         default:
             return state;
     }
@@ -31,6 +40,15 @@ export const settodeliver = (state = [], action) => {
     switch(action.type){
         case SET_TO_DELIVER:
             return action.todeliver;
+        default:
+            return state;
+    }
+}
+
+export const setmessages = (state = [], action) => {
+    switch(action.type){
+        case SET_MESSAGES:
+            return action.setmessages;
         default:
             return state;
     }

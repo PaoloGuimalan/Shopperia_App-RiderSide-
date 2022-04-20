@@ -8,13 +8,16 @@ import { SET_TO_RETRIEVE } from '../redux/types/types';
 
 export default function ToRetrieve() {
 
+  const [loader, setloader] = useState(true);
+
   const riderID = useSelector(state => state.riderID);
+  const riderbranch = useSelector(state => state.riderbranch);
   const toretrieve = useSelector(state => state.toretrieve);
   const dispatch = useDispatch();
 
   useEffect(() => {
     getToRetrieveOrders()
-  }, [riderID])
+  }, [riderID, loader])
 
   const getToRetrieveOrders = async () => {
     await AsyncStorage.getItem('token').then((resp) => {
@@ -28,6 +31,27 @@ export default function ToRetrieve() {
             //catch err
         })
     })
+  }
+
+  const retrieveConfirm = async (follow_order_id) => {
+      await AsyncStorage.getItem('token').then((resp) => {
+        Axios.post(`http://${URL_TWO}/retrieveConfirm`, {
+            rider_id: riderID,
+            branch: riderbranch,
+            order_id: follow_order_id
+        }, {
+            headers:{
+                "x-access-token": resp
+            }
+        }).then((response) => {
+            setloader(!loader);
+            if(response.data.status){
+                alert(response.data.message);
+            }
+        }).catch((err) => {
+            //err execute
+        })
+      })
   }
 
   return (
@@ -44,7 +68,7 @@ export default function ToRetrieve() {
                         <Text style={ToRetrieveStyle.detailsText}>{items.fulladdress}</Text>
                         <View style={ToRetrieveStyle.buttonsView}>
                             <Text style={ToRetrieveStyle.btnsOrderOne}>View</Text>
-                            <Text style={ToRetrieveStyle.btnsOrderTwo}>Retrieved</Text>
+                            <Text style={ToRetrieveStyle.btnsOrderTwo} onPress={() => {retrieveConfirm(items.order_id)}}>Retrieved</Text>
                         </View>
                       </View>
                   </View>

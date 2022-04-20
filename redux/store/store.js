@@ -1,11 +1,13 @@
 import { createStore, combineReducers } from "redux";
-import { setriderid, setserver, settodeliver, settoretrieve } from "../actions/actions";
+import { setmessages, setriderbranch, setriderid, setserver, settodeliver, settoretrieve } from "../actions/actions";
 
 const combine = combineReducers({
     riderID: setriderid,
     server: setserver,
     toretrieve: settoretrieve,
-    todeliver: settodeliver
+    todeliver: settodeliver,
+    riderbranch: setriderbranch,
+    messages: setmessages
 });
 
 const store = createStore(combine);

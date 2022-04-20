@@ -6,7 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Axios from 'axios';
 import { URL_ONE, URL_THREE, URL_TWO } from '../../localvars/localvars';
 import { useDispatch, useSelector } from 'react-redux';
-import { SET_RIDER_ID, SET_SERVER } from '../../redux/types/types';
+import { SET_RIDER_BRANCH, SET_RIDER_ID, SET_SERVER } from '../../redux/types/types';
 import { Ionicons } from '@expo/vector-icons';
 
 export default function Login({navigation}) {
@@ -30,6 +30,7 @@ export default function Login({navigation}) {
           await setemail("");
           await setpassword("");
           await AsyncStorage.setItem('token', response.data.token);
+          await dispatch({type: SET_RIDER_BRANCH, riderbranch: response.data.branch})
           await dispatch({type: SET_RIDER_ID, riderID: response.data.riderID})
           navigation.navigate("Home");
           alert("Logged In!");
@@ -52,6 +53,7 @@ export default function Login({navigation}) {
         }).then((response) => {
           // console.log(response.data);
           if(response.data.status){
+            dispatch({type: SET_RIDER_BRANCH, riderbranch: response.data.branch})
             dispatch({type: SET_RIDER_ID, riderID: response.data.riderID});
             navigation.navigate("Home");
           }
