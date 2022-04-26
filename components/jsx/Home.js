@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, Button, PermissionsAndroid } from 'react-native'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Ionicons } from '@expo/vector-icons';
 import HomeTab from '../../tabComponents/HomeTab';
@@ -16,10 +16,12 @@ export default function Home({navigation}) {
 
   const riderID = useSelector(state => state.riderID);
 
+  const [locationsetter, setlocationsetter] = useState("");
+
   useEffect(() => {
     socketer(riderID);
+    // console.log(navigator.geolocation);
   }, [riderID])
-  
 
   const accountPress = () => {
     // alert("Hello Account");
