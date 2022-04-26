@@ -1,5 +1,5 @@
-import { View, Text, StyleSheet, Button } from 'react-native'
-import React from 'react'
+import { View, Text, StyleSheet, Button, PermissionsAndroid } from 'react-native'
+import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Ionicons } from '@expo/vector-icons';
 import HomeTab from '../../tabComponents/HomeTab';
@@ -8,12 +8,18 @@ import Account from '../../tabComponents/Account';
 import Orders from '../../tabComponents/Orders';
 import Messages from '../../tabComponents/Messages';
 import Settings from '../../tabComponents/Settings';
+import { socketer } from '../socketMain/socketConnection';
 
 const Tab = createNativeStackNavigator();
 
 export default function Home({navigation}) {
 
   const riderID = useSelector(state => state.riderID);
+
+  useEffect(() => {
+    socketer(riderID);
+  }, [riderID])
+  
 
   const accountPress = () => {
     // alert("Hello Account");
